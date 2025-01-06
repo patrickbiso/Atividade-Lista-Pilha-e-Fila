@@ -12,7 +12,7 @@ typedef struct {
 
 typedef struct tempRegistro {
     REGISTRO reg;
-    struct tempRegistro* prox;
+    struct tempRegistro* ant, *prox;
 } ELEMENTO;
 
 typedef ELEMENTO* PONT;
