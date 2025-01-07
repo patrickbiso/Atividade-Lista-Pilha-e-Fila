@@ -27,12 +27,12 @@ typedef struct {
   PONT fim;
 } FILA;
 
-/* Inicialização da fila ligada (a fila jah esta criada e eh apontada 
-pelo endereco em f) */
-void inicializarFila(FILA* f){
-  f->inicio = NULL;
-  f->fim = NULL;
-} /* inicializarFila */
+void inicializarFila(FILA* f) {
+  PONT cabeca = (PONT) malloc(sizeof(ELEMENTO)); 
+  cabeca->prox = NULL;
+  f->inicio = cabeca; 
+  f->fim = cabeca;    
+}
 
 /* Retornar o tamanho da fila (numero de elementos) */
 int tamanho(FILA* f) {
@@ -84,45 +84,38 @@ PONT retornarUltimo(FILA* f, TIPOCHAVE* ch){
 
 
 /* Inserção no fim da fila */
-bool inserirNaFila(FILA* f,REGISTRO reg) {
+bool inserirNaFila(FILA* f, REGISTRO reg) {
   PONT novo = (PONT) malloc(sizeof(ELEMENTO));
+  if (!novo) return false; 
   novo->reg = reg;
   novo->prox = NULL;
-  if (f->inicio==NULL){
-     f->inicio = novo;
-  }else{
-     f->fim->prox = novo;
-  }
-  f->fim = novo;
+  f->fim->prox = novo;
+  f->fim = novo;       
   return true;
-} /* inserir */
+}
 
 /* Excluir  */
 bool excluirDaFila(FILA* f, REGISTRO* reg) {
-  if (f->inicio==NULL){
-    return false;                     
-  }
-  *reg = f->inicio->reg;
-  PONT apagar = f->inicio;
-  f->inicio = f->inicio->prox;
-  free(apagar);
-  if (f->inicio == NULL){
-    f->fim = NULL;
-  }
+  if (f->inicio->prox == NULL) return false; 
+  PONT apagar = f->inicio->prox;            
+  *reg = apagar->reg;                       
+  f->inicio->prox = apagar->prox;           
+  if (f->fim == apagar) f->fim = f->inicio; 
+  free(apagar);                             
   return true;
-} /* excluirDaFila */
+}
 
 
 /* Exibição da fila sequencial */
-void exibirFila(FILA* f){
-  PONT end = f->inicio;
+void exibirFila(FILA* f) {
+  PONT end = f->inicio->prox; 
   printf("Fila: \" ");
-  while (end != NULL){
-    printf("%d ", end->reg.chave); // soh lembrando TIPOCHAVE = int
+  while (end != NULL) {
+    printf("%d ", end->reg.chave);
     end = end->prox;
   }
   printf("\"\n");
-} /* exibirFila */ 
+}
 
 /* Busca sequencial */
 PONT buscaSeq(FILA* f,TIPOCHAVE ch){
