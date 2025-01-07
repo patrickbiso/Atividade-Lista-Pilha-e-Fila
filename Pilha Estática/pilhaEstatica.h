@@ -15,6 +15,7 @@ typedef struct {
     REGISTRO A[MAX];
 } PILHA;
 
+void exibirPilhaInvertida(PILHA* p); // Função da atividade
 void inicializarPilha(PILHA* p);
 int tamanhoPilha(PILHA* p);
 void exibirPilha(PILHA* p);
